@@ -7,27 +7,27 @@
 class Fixed {
 private:
     int                 _rawBits;
-    static const int    _fractionalBits = 8;
+    static const int    _fractionalBits = 8; // Fixed-point fractional precision
 
 public:
     // --- Orthodox Canonical Form ---
-    Fixed( void );                        // default ctor
-    Fixed( Fixed const & other );         // copy ctor
-    Fixed & operator=( Fixed const & other ); // copy assignment
-    ~Fixed( void );                       // dtor
+    Fixed( void );                        // Default constructor (RAII, resource acquisition)
+    Fixed( Fixed const & other );         // Copy constructor (deep copy for fixed-point representation)
+    Fixed & operator=( Fixed const & other ); // Copy assignment operator (ensures proper resource copying)
+    ~Fixed( void );                       // Destructor (cleans up resources if needed)
 
     // --- New constructors ---
-    Fixed( int const intVal );            // converte intero → fixed-point :contentReference[oaicite:2]{index=2}:contentReference[oaicite:3]{index=3}
-    Fixed( float const floatVal );        // converte float → fixed-point :contentReference[oaicite:4]{index=4}:contentReference[oaicite:5]{index=5}
+    Fixed( int const intVal );            // Converts integer to fixed-point (integral conversion)
+    Fixed( float const floatVal );        // Converts float to fixed-point (floating-point conversion)
 
     // --- Member functions ---
-    int   getRawBits( void ) const;
-    void  setRawBits( int const raw );
-    float toFloat( void ) const;         // fixed → float :contentReference[oaicite:6]{index=6}:contentReference[oaicite:7]{index=7}
-    int   toInt( void ) const;           // fixed → int   :contentReference[oaicite:8]{index=8}:contentReference[oaicite:9]{index=9}
+    int   getRawBits( void ) const;       // Retrieves raw fixed-point data (const correctness)
+    void  setRawBits( int const raw );    // Sets raw fixed-point data (direct memory management)
+    float toFloat( void ) const;          // Converts fixed-point to float (precision conversion)
+    int   toInt( void ) const;            // Converts fixed-point to int (truncation conversion)
 };
 
-// Overload dell’inserzione su stream
+// Stream insertion operator overload for direct output (operator overloading, ad-hoc polymorphism)
 std::ostream & operator<<( std::ostream & os, Fixed const & fp );
 
 #endif

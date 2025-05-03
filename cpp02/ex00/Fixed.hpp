@@ -5,19 +5,19 @@
 
 class Fixed {
 private:
-    int                 _rawBits;                    // valore raw del numero fisso -> integer
-    static const int    _fractionalBits = 8;         // numero di bit per la parte frazionaria
+    int                 _rawBits;                    // Raw fixed-point integer value
+    static const int    _fractionalBits = 8;         // Bit count for fractional part representation
 
 public:
     // --- Orthodox Canonical Form ---
-    Fixed( void );                                    // default constructor
-    Fixed( Fixed const & other );                     // copy constructor
-    Fixed & operator=( Fixed const & other );         // copy assignment
-    ~Fixed( void );                                   // destructor
+    Fixed( void );                                    // Default constructor: initializes fixed-point value
+    Fixed( Fixed const & other );                     // Copy constructor: creates a new instance from another
+    Fixed & operator=( Fixed const & other );         // Copy assignment: assigns state from another instance
+    ~Fixed( void );                                   // Destructor: releases any allocated resources
 
-    // getter e setter per: raw bits
-    int getRawBits( void ) const;
-    void setRawBits( int const raw );
+    // Getters and setters for raw bits
+    int getRawBits( void ) const;                     // Getter: returns the raw fixed-point value
+    void setRawBits( int const raw );                 // Setter: updates the raw fixed-point value
 };
 
 #endif
