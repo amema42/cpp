@@ -1,5 +1,3 @@
-#include <iostream>
-#include <string>
 #include "PhoneBook.hpp"
 #include "Contact.hpp"
 
@@ -18,7 +16,8 @@ int main() {
 
     while (true) {
         std::cout << "Enter command (ADD, SEARCH, EXIT): ";
-        if (!std::getline(std::cin, cmd)) break;
+        if (!std::getline(std::cin, cmd))
+            break;
 
         if (cmd == "ADD") {
             Contact c;
@@ -42,16 +41,27 @@ int main() {
                 continue;
             }
             pb.displayContacts();
+
             std::cout << "Enter index: ";
-            std::string idxs; std::getline(std::cin, idxs);
-            int idx = -1;
-            try { idx = std::stoi(idxs); }
-            catch (...) { std::cout << "Invalid index.\n"; continue; }
+            std::string idxs;
+            std::getline(std::cin, idxs);
+
+            std::istringstream iss(idxs);
+            int idx;
+            // o se idx è fuori dall'intervallo [0, totalContacts)
+            if (!(iss >> idx) || !iss.eof() 
+                || idx < 0 || idx >= pb.getTotalContacts())
+            {
+                std::cout << "Invalid index.\n";
+                continue;
+            }
+
             pb.displayContactDetails(idx);
         }
         else if (cmd == "EXIT") {
             break;
         }
     }
+
     return 0;
 }

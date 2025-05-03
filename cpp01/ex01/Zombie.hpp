@@ -1,24 +1,22 @@
 #ifndef ZOMBIE_HPP
 #define ZOMBIE_HPP
 
-#include <string>  // per std::string
+#include <string>  // std::string lib
 
 class Zombie {
 private:
-    std::string name;  // zombie's name
+    std::string name;  // (0)
 
 public:
     Zombie(void);
-    // Costruttore: inizializza 'name' col valore passato
+    // init name (1)
     Zombie(std::string name);
     ~Zombie(void);
 
-    // Distruttore: stamperà un messaggio di debug alla distruzione
-    //~Zombie();
-
-    // announce(): non modifica l'oggetto, quindi lo dichiariamo const
+    // announce() : no "object" modification
     void announce(void) const;
-    void setName(std::string name);      // imposta o cambia il nome
+    // set new Name (2)
+    void setName(std::string name);
 };
 
 #endif

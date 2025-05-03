@@ -11,7 +11,7 @@ int main(int argc, char* argv[]) {
     std::string level = argv[1];
     Harl harl;
 
-    // mappiamo il livello su un index per lo switch
+    // map log level to index
     int idx = -1;
     if (level == "DEBUG")   idx = 0;
     else if (level == "INFO")    idx = 1;
@@ -21,18 +21,19 @@ int main(int argc, char* argv[]) {
     switch (idx) {
         case 0:
             harl.complain("DEBUG");
-            //[[fallthrough]];
+            // fallthrough
         case 1:
             harl.complain("INFO");
-            //[[fallthrough]];
+            // fallthrough
         case 2:
             harl.complain("WARNING");
-            //[[fallthrough]];
+            // fallthrough
         case 3:
             harl.complain("ERROR");
             break;
         default:
             std::cout << "[ Probably complaining about insignificant problems ]\n";
     }
+
     return 0;
 }

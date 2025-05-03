@@ -1,11 +1,10 @@
 #include "HumanB.hpp"
-#include <iostream>
 
 HumanB::HumanB(const std::string& name)
     : name(name), weapon(NULL)
 {}
 
-void HumanB::setWeapon(Weapon& w) { // uso un puntatore perché HumanB può stare senza arma -> setWeapon()
+void HumanB::setWeapon(Weapon& w) { // pointer supports null state
     weapon = &w;
 }
 

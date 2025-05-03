@@ -5,7 +5,7 @@
 
 class Weapon {
 private:
-    std::string type;  // tipo d’arma
+    std::string type;  // weapon type
 
 public:
     Weapon(const std::string& initialType);
@@ -13,4 +13,4 @@ public:
     void setType(const std::string& newType);
 };
 
-#endif // WEAPON_HPP
+#endif

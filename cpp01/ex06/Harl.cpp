@@ -1,5 +1,4 @@
 #include "Harl.hpp"
-#include <iostream>
 
 Harl::Harl( void ) {}
 Harl::~Harl( void ) {}
@@ -46,5 +45,4 @@ void Harl::complain( std::string level ) {
             return;
         }
     }
-    // se livello non valido, non fa nulla
 }

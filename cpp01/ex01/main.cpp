@@ -4,14 +4,14 @@ Zombie* zombieHorde(int N, std::string name);
 
 int main() {
     int N = 5;
-    // Creo 5 zombie “MoarZombie”
+    // create: 5 zombies w. name "MoarZombie"
     Zombie* horde = zombieHorde(N, "MoarZombie");
 
-    // Li faccio annunciare tutti
+    // Call announce() on each zombie: obv Annauncing a Walking Dead Zombie :)
     for (int i = 0; i < N; ++i)
         horde[i].announce();
 
-    // Dealloco correttamente l’array
+    // deallocate the zombie array
     delete[] horde;
 
     return 0;

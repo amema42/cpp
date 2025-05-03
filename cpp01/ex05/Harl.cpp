@@ -1,5 +1,4 @@
 #include "Harl.hpp"
-#include <iostream>
 
 Harl::Harl( void ) {}
 Harl::~Harl( void ) {}
@@ -35,7 +34,7 @@ void Harl::error( void ) {
 }
 
 void Harl::complain( std::string level ) {
-    // Array di stringhe con i nomi dei livelli
+    // "level" names array
     static const std::string levels[] = {
         "DEBUG",
         "INFO",
@@ -43,7 +42,7 @@ void Harl::complain( std::string level ) {
         "ERROR"
     };
 
-    // Array parallelo di puntatori a membro
+    // parallel "array" of member function pointers
     typedef void (Harl::*HarlMemFn)(void);
     static const HarlMemFn funcs[] = {
         &Harl::debug,
@@ -52,17 +51,17 @@ void Harl::complain( std::string level ) {
         &Harl::error
     };
 
-    // Cerco il livello e, se trovato, chiamo il membro corrispondente
+    // search for matching level; call associated function
     for (int i = 0; i < 4; ++i) {
         if (level == levels[i]) {
             (this->*funcs[i])();
             return;
         }
     }
-    // Se il livello non è uno dei quattro -> do nothing
+    // If: level not found? no action
 }
 
 /*
-levels[] & levels[] sono paralleli; a levels[i] corrisponde funcs[i]
-(this->*funcs[i])(); -> chiamo il membro corrispondente nel loop
+levels and funcs are parallel arrays;
+(this->*funcs[i])() calls the corresponding member function.
 */

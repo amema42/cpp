@@ -1,13 +1,16 @@
 #ifndef HUMANA_HPP
 #define HUMANA_HPP
 
-#include <string>
 #include "Weapon.hpp"
+
+#include <string>
+#include <iostream>
+
 
 class HumanA {
 private:
     std::string name;
-    Weapon&    weapon;  // riferimento: sempre armato
+    Weapon&    weapon;  // always armed "reference"
 
 public:
     HumanA(const std::string& name, Weapon& weapon);

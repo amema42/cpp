@@ -2,12 +2,14 @@
 #define HUMANB_HPP
 
 #include <string>
+#include <iostream>
 #include "Weapon.hpp"
 
 class HumanB {
 private:
     std::string name;
-    Weapon*    weapon;  // pointer: può essere disarmato
+    Weapon*    weapon;  // nullable pointer:
+                        // can be unarmed (null) or armed (not null)
 
 public:
     HumanB(const std::string& name);
@@ -15,4 +17,4 @@ public:
     void   attack() const;
 };
 
-#endif // HUMANB_HPP
+#endif

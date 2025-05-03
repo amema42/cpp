@@ -2,6 +2,8 @@
 #define CONTACT_HPP
 
 #include <string>
+#include <iostream>
+#include <sstream>
 
 class Contact {
 private:

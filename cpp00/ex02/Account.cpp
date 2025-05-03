@@ -1,30 +1,17 @@
 #include "Account.hpp"
-#include <iostream>
-#include <ctime>
 
-// Inizializzazione delle variabili statiche (come in Account.hpp)
+// Static var init
 int Account::_nbAccounts         = 0;
 int Account::_totalAmount        = 0;
 int Account::_totalNbDeposits    = 0;
 int Account::_totalNbWithdrawals = 0;
 
-
-// uso di <ctime>, std::time, std::localtime, std::strftime per timestamp formattato
-// void Account::_displayTimestamp() {
-//     std::time_t t = std::time(nullptr);
-//     std::tm* tm_local = std::localtime(&t);
-//     char buf[20];
-//     std::strftime(buf, sizeof(buf), "[%Y%m%d_%H%M%S] ", tm_local);
-//     std::cout << buf;
-// }
-
+// PRINT: fixed timestamp to simulate the provided log
 void Account::_displayTimestamp() {
     std::cout << "[19920104_091532] ";
 }
 
-// Initializer list: permette di inizializzare i membri prima del corpo del costruttore
-// & update di: _nbAccounts & _totalAmount
-
+// Constructor: init account and updates static var
 Account::Account(int initial_deposit)
     : _accountIndex(_nbAccounts),
       _amount(initial_deposit),
@@ -38,17 +25,20 @@ Account::Account(int initial_deposit)
     _totalAmount += _amount;
 }
 
+// Destructor: displays account closure prints
 Account::~Account() {
     _displayTimestamp();
     std::cout << "index:" << _accountIndex
               << ";amount:" << _amount << ";closed\n";
 }
 
+// GETTERS for static variables
 int Account::getNbAccounts()    { return _nbAccounts; }
 int Account::getTotalAmount()   { return _totalAmount; }
 int Account::getNbDeposits()    { return _totalNbDeposits; }
 int Account::getNbWithdrawals() { return _totalNbWithdrawals; }
 
+// display global info
 void Account::displayAccountsInfos() {
     _displayTimestamp();
     std::cout << "accounts:"   << getNbAccounts()
@@ -58,7 +48,7 @@ void Account::displayAccountsInfos() {
               << '\n';
 }
 
-// makeDeposit: aggiorna _amount, _nbDeposits, _totalAmount, _totalNbDeposits
+// print: deposit: updates: account & static variables
 void Account::makeDeposit(int deposit) {
     _displayTimestamp();
     std::cout << "index:"     << _accountIndex
@@ -73,14 +63,14 @@ void Account::makeDeposit(int deposit) {
               << '\n';
 }
 
-// makeWithdrawal: aggiorna _amount, _nbWithdrawals, _totalAmount, _totalNbWithdrawals
+// "Withdrawal": updates account & static variables
 bool Account::makeWithdrawal(int withdrawal) {
     _displayTimestamp();
     std::cout << "index:"      << _accountIndex
               << ";p_amount:"  << _amount
               << ";withdrawal:";
     if (withdrawal > _amount) {
-        std::cout << "refused\n";
+        std::cout << "refused\n";  // checks for insufficient funds:
         return false;
     }
     _amount -= withdrawal;
@@ -94,12 +84,12 @@ bool Account::makeWithdrawal(int withdrawal) {
     return true;
 }
 
-// checkAmount: ritorna _amount 
+
 int Account::checkAmount() const {
     return _amount;
 }
 
-// displayStatus: mostra lo stato dell'account
+// Print account status
 void Account::displayStatus() const {
     _displayTimestamp();
     std::cout << "index:"       << _accountIndex

@@ -1,23 +1,17 @@
-// main.cpp
-#include "Zombie.hpp"       // include della classe Zombie (e di <string>)
+#include "Zombie.hpp"
 
- // dichiarazioni delle funzioni definite in newZombie.cpp e randomChump.cpp
 Zombie* newZombie(std::string name);
 void   randomChump(std::string name);
 
 int main() {
-    // 1) Alloco uno Zombie sul heap con nome "HeapZombie"
+    // Allocate -> heap Zombie
     Zombie* heapZombie = newZombie("HeapZombie");
-    // 2) Faccio annunciare lo zombie creato dinamicamente
+    // Call announce()
     heapZombie->announce();
-    // 3) Dealloco lo zombie per evitare memory leak
+    // Free -> heap Zombie
     delete heapZombie;
 
-    // 4) Creo uno Zombie sullo stack e lo faccio annunciare:
-    //    randomChump crea un oggetto locale, chiama announce() e
-    //    quando esce dallo scope (fine funzione) il distruttore viene invocato automaticamente
+    // Stack allocation; auto announce -> "Zombie"
     randomChump("StackZombie");
-
-    // 5) Ritorno 0: indicazione di successo al sistema operativo
     return 0;
 }
