@@ -5,19 +5,25 @@
 
 class Fixed {
 private:
-    int                 _rawBits;                    // Raw fixed-point integer value
-    static const int    _fractionalBits = 8;         // Bit count for fractional part representation
+    int                 _rawBits;
+    static const int    _fractionalBits = 8;         // frac "prcision" -> 2^8 = 256/ Last 8 bits are fractional
 
 public:
-    // --- Orthodox Canonical Form ---
-    Fixed( void );                                    // Default constructor: initializes fixed-point value
-    Fixed( Fixed const & other );                     // Copy constructor: creates a new instance from another
-    Fixed & operator=( Fixed const & other );         // Copy assignment: assigns state from another instance
-    ~Fixed( void );                                   // Destructor: releases any allocated resources
+    // Canonical (Orth) Form
+    Fixed( void );
+    Fixed( Fixed const & other );
+    Fixed & operator=( Fixed const & other );
+    ~Fixed( void );
 
-    // Getters and setters for raw bits
-    int getRawBits( void ) const;                     // Getter: returns the raw fixed-point value
-    void setRawBits( int const raw );                 // Setter: updates the raw fixed-point value
+    // raw val "access"
+    int getRawBits( void ) const;                     // returns (raw value)
+    void setRawBits( int const raw );                 // sets (raw value)
 };
 
 #endif
+
+// Canonical Form: Fixed( void );
+// (1)default Constructor
+// (2)copy constructor
+// (3)copy "assignment"
+// (4) destructor

@@ -2,32 +2,31 @@
 #define FIXED_HPP
 
 #include <iostream>
-#include <cmath>  // roundf
+#include <cmath>  // need 4 roundf
 
 class Fixed {
 private:
     int                 _rawBits;
-    static const int    _fractionalBits = 8; // Fixed-point fractional precision
+    static const int    _fractionalBits = 8; // fractional precision -> 2^8 = 256/ Last 8 bits are fractional
 
 public:
-    // --- Orthodox Canonical Form ---
-    Fixed( void );                        // Default constructor (RAII, resource acquisition)
-    Fixed( Fixed const & other );         // Copy constructor (deep copy for fixed-point representation)
-    Fixed & operator=( Fixed const & other ); // Copy assignment operator (ensures proper resource copying)
-    ~Fixed( void );                       // Destructor (cleans up resources if needed)
+    // Canonical Form
+    Fixed( void );                      // default constructor
+    Fixed( Fixed const & other );       // copy constructor
+    Fixed & operator=( Fixed const & other ); // copy assignment
+    ~Fixed( void );                     // destructor
 
-    // --- New constructors ---
-    Fixed( int const intVal );            // Converts integer to fixed-point (integral conversion)
-    Fixed( float const floatVal );        // Converts float to fixed-point (floating-point conversion)
+    // conversions
+    Fixed( int const intVal );          // convert int to fixed-point
+    Fixed( float const floatVal );      // convert float to fixed-point
 
-    // --- Member functions ---
-    int   getRawBits( void ) const;       // Retrieves raw fixed-point data (const correctness)
-    void  setRawBits( int const raw );    // Sets raw fixed-point data (direct memory management)
-    float toFloat( void ) const;          // Converts fixed-point to float (precision conversion)
-    int   toInt( void ) const;            // Converts fixed-point to int (truncation conversion)
+    // "asccessors"
+    int   getRawBits( void ) const;
+    void  setRawBits( int const raw );
+    float toFloat( void ) const;
+    int   toInt( void ) const;
 };
 
-// Stream insertion operator overload for direct output (operator overloading, ad-hoc polymorphism)
 std::ostream & operator<<( std::ostream & os, Fixed const & fp );
 
 #endif
