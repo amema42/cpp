@@ -11,10 +11,10 @@ class Animal
         std::string type;
     public:
         Animal();
-        virtual ~Animal(); // virtual destructor: [delete] the derived class object like Cat or Dog
+        virtual ~Animal() = 0; // PURE "virtual Destructor": makes the Animal class abstract and non-instantiable
 
         Animal(const Animal& other); // Copy constructor
-        Animal& operator=(const Animal& other); // Copy assignment operator (=)
+        Animal& operator=(const Animal& other); // Copy assignment operator
 
     // access the type attribute in read-only mode (const -> "read-only"; cannot modify)
         std::string getType() const;

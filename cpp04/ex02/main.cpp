@@ -1,62 +1,86 @@
-#include "Animal.hpp"
 #include "Dog.hpp"
 #include "Cat.hpp"
+// #include "Animal.hpp"
 #include <iostream>
-
-#define ARRAY_SIZE 4
 
 int main()
 {
-    std::cout << "- alloc an array of Animal* [array]\n";
+    std::cout << "[ex02] Abstract class test\n\n";
 
-    Animal* animals[ARRAY_SIZE];
+    // Animal* a = new Animal();
+    const Animal* doggo = new Dog();  std::cout << "[CREATED Dog]\n";
+    const Animal* kitty = new Cat();  std::cout << "[CREATED Cat]\n";
 
-    // first half: Dog
-    for (int i = 0; i < ARRAY_SIZE / 2; ++i)
-    {
-        std::cout << "\n[CREATING DOG " << i << "]\n";
-        animals[i] = new Dog();
-    }
+    std::cout << "\n--- POLYMORPHISM ---\n";
+    doggo->makeSound();
+    kitty->makeSound();
 
-    // second half: Cat
-    for (int i = ARRAY_SIZE / 2; i < ARRAY_SIZE; ++i)
-    {
-        std::cout << "\n[CREATING CAT " << i << "]\n";
-        animals[i] = new Cat();
-    }
+    std::cout << "\n--- DESTRUCTION ---\n";
+    delete doggo; std::cout << "[DELETED Dog]\n";
+    delete kitty; std::cout << "[DELETED Cat]\n";
 
-    std::cout << "\n CREATING AND COPYing DOGS [deep copy test]\n";
-
-    Dog* dog1 = new Dog(); // Original Dog
-    dog1->setIdea(0, "Let me out!");             //set idea0
-    dog1->setIdea(1, "Bark at the mailman!");      // set idea1
-
-    Dog* dog2 = new Dog(*dog1); // Copy constructor → deep copy
-
-    std::cout << "[CHECK] Dog1 idea 0: " << dog1->getIdea(0) << "\n";
-    std::cout << "[CHECK] Dog2 idea 0: " << dog2->getIdea(0) << "\n";
-
-    std::cout << "\n[MODIFICATION] Changing dog2 idea 0\n";
-    dog2->setIdea(0, "Free palestine!");
-
-    std::cout << "[CHECK] Dog1 idea 0 (after modifying Dog2): " << dog1->getIdea(0) << "\n";
-    std::cout << "[CHECK] Dog2 idea 0: " << dog2->getIdea(0) << "\n";
-
-    std::cout << "\n- DEL OF Dog1 and Dog2 -[delete]\n";
-    delete dog1;
-    delete dog2;
-
-    std::cout << "\n- DEL of the ANIMALS ARRAY - [delete loop]\n";
-
-    for (int i = 0; i < ARRAY_SIZE; ++i)
-    {
-        std::cout << "\n[DEL ANIMAL " << i << "]\n";
-        delete animals[i];
-    }
-
-    std::cout << "all objects destroyed correctly. Daje! End.\n";
     return 0;
 }
+
+// #include "Animal.hpp"
+// #include "Dog.hpp"
+// #include "Cat.hpp"
+// #include <iostream>
+
+// #define ARRAY_SIZE 4
+
+// int main()
+// {
+//     std::cout << "- alloc an array of Animal* [array]\n";
+
+//     Animal* animals[ARRAY_SIZE];
+
+//     // first half: Dog
+//     for (int i = 0; i < ARRAY_SIZE / 2; ++i)
+//     {
+//         std::cout << "\n[CREATING DOG " << i << "]\n";
+//         animals[i] = new Dog();
+//     }
+
+//     // second half: Cat
+//     for (int i = ARRAY_SIZE / 2; i < ARRAY_SIZE; ++i)
+//     {
+//         std::cout << "\n[CREATING CAT " << i << "]\n";
+//         animals[i] = new Cat();
+//     }
+
+//     std::cout << "\n CREATING AND COPYing DOGS [deep copy test]\n";
+
+//     Dog* dog1 = new Dog(); // Original Dog
+//     dog1->setIdea(0, "Let me out!");             //set idea0
+//     dog1->setIdea(1, "Bark at the mailman!");      // set idea1
+
+//     Dog* dog2 = new Dog(*dog1); // Copy constructor → deep copy
+
+//     std::cout << "[CHECK] Dog1 idea 0: " << dog1->getIdea(0) << "\n";
+//     std::cout << "[CHECK] Dog2 idea 0: " << dog2->getIdea(0) << "\n";
+
+//     std::cout << "\n[MODIFICATION] Changing dog2 idea 0\n";
+//     dog2->setIdea(0, "Free palestine!");
+
+//     std::cout << "[CHECK] Dog1 idea 0 (after modifying Dog2): " << dog1->getIdea(0) << "\n";
+//     std::cout << "[CHECK] Dog2 idea 0: " << dog2->getIdea(0) << "\n";
+
+//     std::cout << "\n- DEL OF Dog1 and Dog2 -[delete]\n";
+//     delete dog1;
+//     delete dog2;
+
+//     std::cout << "\n- DEL of the ANIMALS ARRAY - [delete loop]\n";
+
+//     for (int i = 0; i < ARRAY_SIZE; ++i)
+//     {
+//         std::cout << "\n[DEL ANIMAL " << i << "]\n";
+//         delete animals[i];
+//     }
+
+//     std::cout << "all objects destroyed correctly. Daje! End.\n";
+//     return 0;
+// }
 
 
 //---

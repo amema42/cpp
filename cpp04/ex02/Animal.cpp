@@ -22,7 +22,7 @@ Animal& Animal::operator=(const Animal& other) {
 }
 
 Animal::~Animal() {
-    std::cout << "Animal destroyed\n";
+    std::cout << "Animal destroyed [~Animal()]\n";
 }
 
 // virtual func: can be overridden by derived classes AND returns animal type (string)
