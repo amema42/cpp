@@ -1,13 +1,13 @@
 #include "Dog.hpp"
 #include "Cat.hpp"
-// #include "Animal.hpp"
+//#include "Animal.hpp"
 #include <iostream>
 
 int main()
 {
     std::cout << "[ex02] Abstract class test\n\n";
 
-    // Animal* a = new Animal();
+    //Animal* a = new Animal();
     const Animal* doggo = new Dog();  std::cout << "[CREATED Dog]\n";
     const Animal* kitty = new Cat();  std::cout << "[CREATED Cat]\n";
 

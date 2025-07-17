@@ -18,7 +18,7 @@ class Animal
 
     // access the type attribute in read-only mode (const -> "read-only"; cannot modify)
         std::string getType() const;
-        virtual void makeSound() const;
+        virtual void makeSound() const = 0;
 };
 
 #endif
