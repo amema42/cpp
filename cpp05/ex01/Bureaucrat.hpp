@@ -4,6 +4,7 @@
 #include <string>
 #include <iostream>
 #include <stdexcept>
+#include "Form.hpp"
 
 class Bureaucrat {
 private:
@@ -23,6 +24,8 @@ public:
 
     void setGradeUp(); //+1
     void setGradeDown(); //-1
+
+    void signForm(Form &form);
 
     // Exception classes
     class GradeTooHighException : public std::exception {
