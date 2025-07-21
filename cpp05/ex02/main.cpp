@@ -2,6 +2,7 @@
 #include "ShrubberyCreationForm.hpp"
 #include "AForm.hpp"
 #include "RobotomyRequestForm.hpp"
+#include "PresidentialPardonForm.hpp"
 #include <iostream>
 #include <cstdlib>
 #include <ctime>
@@ -68,6 +69,29 @@ int main() {
         //toLowToExe.executeForm(f);
         doubleSign.signForm(f);
         doubleSign.signForm(f);
+
+        //doubleSign.executeForm(f);
+        //doubleSign.executeForm(f);
+        
+
+    } catch (std::exception& e){
+        std::cerr << "ERROR: signForm: " << e.what() << std::endl;
+    }
+    std::cout << "PresidentialPardonForm" << std::endl;
+    try {
+        // Bureaucrat lowRank("Gianni", 150);
+        //Bureaucrat toLowToExe("Gianni", 140);
+        Bureaucrat gato("El Gato", 1);
+        // RobotomyRequestForm f("Target");
+        //ShrubberyCreationForm f ("toLowToExe");
+        PresidentialPardonForm f("X");
+        // lowRank.signForm(f);
+        // lowRank.executeForm(f);
+        //toLowToExe.signForm(f);
+        //toLowToExe.executeForm(f);
+        gato.signForm(f);
+        gato.executeForm(f);
+        //doubleSign.signForm(f);
 
         //doubleSign.executeForm(f);
         //doubleSign.executeForm(f);

@@ -13,8 +13,10 @@ ShrubberyCreationForm::ShrubberyCreationForm(const ShrubberyCreationForm& other)
 
 
 ShrubberyCreationForm& ShrubberyCreationForm::operator=(const ShrubberyCreationForm& other){
-    if (this != &other)
+    if (this != &other){
+        AForm::operator=(other); // copy of: _isSigned && _executed 
         this->_target = other._target;
+    }
     return *this;
 }
 

@@ -10,8 +10,10 @@ RobotomyRequestForm::RobotomyRequestForm(const RobotomyRequestForm& other) : AFo
 }
 
 RobotomyRequestForm& RobotomyRequestForm::operator=(const RobotomyRequestForm& other){
-    if (this != &other)
+    if (this != &other){
+        AForm::operator=(other); // copy of: _isSigned && _executed 
         this->_target = other._target;
+    }
     return *this;
 }
 
