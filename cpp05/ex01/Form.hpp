@@ -38,9 +38,10 @@ public:
         const char * what() const throw();
     };
 
+    //friend std::ostream& operator<<(std::ostream& out, const Form& f);
+
 };
 
 std::ostream& operator<<(std::ostream& out, const Form& f);
-
 
 #endif
