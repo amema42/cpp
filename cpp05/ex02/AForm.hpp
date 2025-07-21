@@ -13,6 +13,7 @@ private:
     bool _isSigned;
     const int _gradeToSign;
     const int _gradeToExecute;
+    mutable bool _executed;
 
 public:
     //AForm();
@@ -25,6 +26,10 @@ public:
     bool getIsSigned() const;
     int getGradeToSign() const;
     int getGradeToExecute() const;
+    bool getWasExecuted() const;
+
+    void setWasExecuted(bool executed) const;
+
 
     void    beSigned(const Bureaucrat& b);
 
@@ -41,6 +46,16 @@ public:
     };
 
     class FormNotSignedException : public std::exception {
+    public:
+        const char * what() const throw();
+    };
+
+    class FormAlreadySignedException : public std::exception{
+    public:
+        const char * what() const throw();
+    };
+
+    class FormAlreadyExecuted : public std::exception {
     public:
         const char * what() const throw();
     };

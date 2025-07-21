@@ -4,7 +4,7 @@
 
 // AForm::AForm(){}
 
-AForm::AForm(const std::string& name, int gradeToSign, int gradeToExecute) : _name(name), _isSigned(false),_gradeToSign(gradeToSign), _gradeToExecute(gradeToExecute){
+AForm::AForm(const std::string& name, int gradeToSign, int gradeToExecute) : _name(name), _isSigned(false),_gradeToSign(gradeToSign), _gradeToExecute(gradeToExecute), _executed(false){
     if (gradeToSign < 1 || gradeToExecute < 1 ){
         throw GradeTooHighException();
     }
@@ -28,6 +28,8 @@ AForm& AForm::operator=(const AForm& other){
 AForm::~AForm(){}
 
 void    AForm::beSigned(const Bureaucrat& b){
+    if (_isSigned)
+        throw FormAlreadySignedException();
     if (b.getGrade()  <= _gradeToSign)
         _isSigned = true;
     else
@@ -62,4 +64,20 @@ const char* AForm::GradeTooLowException::what() const throw() {
 
 const char* AForm::FormNotSignedException::what() const throw() {
     return "Form is not signed!";
+}
+
+const char * AForm::FormAlreadyExecuted::what() const throw(){
+    return "Form Already Executed!";
+}
+
+const char * AForm::FormAlreadySignedException::what() const throw(){
+    return "Form Already Signed!";
+}
+
+bool AForm::getWasExecuted() const {
+    return _executed;
+}
+
+void AForm::setWasExecuted(bool executed) const{
+    _executed = executed;
 }

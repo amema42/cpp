@@ -3,6 +3,9 @@
 #include "AForm.hpp"
 #include "RobotomyRequestForm.hpp"
 #include <iostream>
+#include <cstdlib>
+#include <ctime>
+
 
 int main() {
     srand(time(NULL));
@@ -51,6 +54,31 @@ int main() {
         std::cerr << "Exception: " << e.what() << std::endl;
     }
 
+    std::cout << "We Can Do Better about the UX" << std::endl;
+    try {
+        // Bureaucrat lowRank("Gianni", 150);
+        //Bureaucrat toLowToExe("Gianni", 140);
+        Bureaucrat doubleSign("Gato", 1);
+        // RobotomyRequestForm f("Target");
+        //ShrubberyCreationForm f ("toLowToExe");
+        RobotomyRequestForm f("X");
+        // lowRank.signForm(f);
+        // lowRank.executeForm(f);
+        //toLowToExe.signForm(f);
+        //toLowToExe.executeForm(f);
+        doubleSign.signForm(f);
+        doubleSign.signForm(f);
+
+        //doubleSign.executeForm(f);
+        //doubleSign.executeForm(f);
+        
+
+    } catch (std::exception& e){
+        std::cerr << "ERROR: signForm: " << e.what() << std::endl;
+    }
+
+
+    
 
     return 0;
 }
