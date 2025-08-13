@@ -1,9 +1,9 @@
-NAME = ex03
+NAME = ex01
 
 CXX = c++
 CXXFLAGS = -Wall -Wextra -Werror -std=c++98
 
-SRC = main.cpp
+SRC = main.cpp Serializer.cpp Data.cpp
 OBJ = $(SRC:.cpp=.o)
 
 all: $(NAME)
@@ -18,4 +18,3 @@ fclean: clean
 	rm -f $(NAME)
 
 re: fclean all
-
