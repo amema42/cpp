@@ -1,8 +1,9 @@
-// #include <iostream>
-// #include <cstdlib> // rand, srand
-// #include <ctime>   // time
-// #include "Array.hpp"
+#include <iostream>
+#include <cstdlib> // rand, srand
+#include <ctime>   // time
+#include "Array.hpp"
 
+// --- given main for tests ---
 // #define MAX_VAL 750
 // int main(int, char**)
 // {
@@ -44,10 +45,9 @@
 //     delete [] mirror;
 //     return 0;
 // }
+// --- end given main for tests ---
 
 
-#include <iostream>
-#include "Array.hpp"
 
 #define MAX_VAL 750
 int main(int, char**)

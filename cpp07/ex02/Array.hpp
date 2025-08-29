@@ -11,16 +11,13 @@ private:
     unsigned int   _size;
 
 public:
-    // default
     Array() : _data(NULL), _size(0) {}
 
-    // n elementi value-initialized
     Array(unsigned int n) : _data(NULL), _size(n) {
         if (_size > 0)
-            _data = new T[_size](); // () = value-init
+            _data = new T[_size]();
     }
 
-    // copy ctor: deep copy
     Array(const Array& other) : _data(NULL), _size(other._size) {
         if (_size > 0) {
             _data = new T[_size];
@@ -45,7 +42,6 @@ public:
         return *this;
     }
 
-    // dtor
     ~Array() { delete [] _data; }
 
     // operator[] w bound checking
@@ -62,8 +58,9 @@ public:
         return _data[index];
     }
 
-    // getter size
-    unsigned int size() const { return _size; }
+    unsigned int size() const {
+        return _size;
+    }
 };
 
 #endif

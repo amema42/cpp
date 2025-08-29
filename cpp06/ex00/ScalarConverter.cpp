@@ -1,4 +1,5 @@
 #include "ScalarConverter.hpp"
+#include <iomanip> // std::setprecision
 
 ScalarConverter::ScalarConverter() { }
 ScalarConverter::ScalarConverter(const ScalarConverter& other) {
@@ -37,7 +38,8 @@ bool ScalarConverter::isInt(const std::string& literal){
 // 25.5f
 bool ScalarConverter::isFloat(const std::string& literal)
 {
-    if (literal.empty() || literal.back() != 'f')
+    // cannot use .back() in c++98
+    if (literal.empty() || literal[literal.size() - 1] != 'f')
         return false;
     
     // Controlla casi speciali
@@ -172,42 +174,34 @@ void ScalarConverter::printInt(double val)
 
 void ScalarConverter::printFloat(double val)
 {
-    if (std::isnan(val)){
+    if (std::isnan(val)) {
         std::cout << "float: nanf" << std::endl;
     }
-    else if (std::isinf(val)){
+    else if (std::isinf(val)) {
         std::cout << "float: " << (val > 0 ? "+inff" : "-inff") << std::endl;
     }
     else {
         float f = static_cast<float>(val);
-        std::cout << "float: " << f;
-        // Se il numero è intero + e non in notazione scientifica, aggiungi .0
-        if (f == static_cast<int>(f) && !std::isinf(f) && !std::isnan(f) && (f >= -1000000.0f && f <= 1000000.0f))
-            std::cout << ".0";
-        std::cout << "f" << std::endl;
+        std::cout << "float: " 
+                  << std::fixed << std::setprecision(1) << f << "f" 
+                  << std::endl;
     }
 }
 
 void ScalarConverter::printDouble(double val)
 {
-    if (std::isnan(val))
-    {
+    if (std::isnan(val)) {
         std::cout << "double: nan" << std::endl;
     }
-    else if (std::isinf(val))
-    {
+    else if (std::isinf(val)) {
         std::cout << "double: " << (val > 0 ? "+inf" : "-inf") << std::endl;
     }
-    else
-    {
-        std::cout << "double: " << val;
-        // Se il numero è intero, aggiungi .0
-        if (val == static_cast<int>(val) && !std::isinf(val) && !std::isnan(val) && (val >= -1000000.0 && val <= 1000000.0))
-            std::cout << ".0";
-        std::cout << std::endl;
+    else {
+        std::cout << "double: " 
+                  << std::fixed << std::setprecision(1) << val 
+                  << std::endl;
     }
 }
-
 
 void ScalarConverter::convert(const std::string& literal)
 {
@@ -246,11 +240,11 @@ void ScalarConverter::convert(const std::string& literal)
     }
     else if (isInt(literal))
     {
-        errno = 0;  // Reset errno before strtol
+        errno = 0;  // reset errno before strtol
         long long_value = std::strtol(literal.c_str(), NULL, 10);
         if (errno == ERANGE || long_value < INT_MIN || long_value > INT_MAX)
         {
-            // Se è overflow ma potrebbe essere un valid double, prova a convertirlo come double
+            // if it's an overflow && (but) could be a valid double -> try converting it as a double
             double double_value = std::strtod(literal.c_str(), NULL);
             if (errno != ERANGE && !std::isnan(double_value) && !std::isinf(double_value))
             {

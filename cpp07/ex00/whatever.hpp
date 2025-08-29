@@ -1,7 +1,5 @@
 #pragma once
 
-// swapping two val
-
 template <typename T>
 void swap(T& v1, T& v2) {
     T tmp = v1;

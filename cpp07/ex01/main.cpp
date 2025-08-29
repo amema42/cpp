@@ -24,11 +24,9 @@ int main() {
         ::iter(s, 4, ::print<std::string>); std::cout << "\n";
     }
     {
-        // const overload test: function takes const&
         const int k[] = {10, 20, 30};
         ::iter(k, 3, ::print<int>);
         std::cout << "\n";
-        // ::iter(k, 3, ::add<int>); // <-- correctly does NOT compile (k is const)
     }
     return 0;
 }
