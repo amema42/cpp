@@ -6,10 +6,9 @@
 #include <ctime>
 #include <algorithm>
 
-
 PMerge::PMerge() : _vecTimeUs(0.0), _deqTimeUs(0.0) {}
-PMerge::~PMerge() {}
 
+PMerge::~PMerge() {}
 
 bool PMerge::isAllDigits(const std::string& s) const {
     if (s.empty()) return false;
@@ -33,12 +32,16 @@ bool PMerge::loadArgs(int argc, char** argv) {
 
         char* end = 0;
         long v = std::strtol(token.c_str(), &end, 10);
-        if (*end != '\0') return false;
-        if (v <= 0) return false;
-        if (v > INT_MAX) return false;
+        if (*end != '\0')
+            return false;
+        if (v <= 0)
+            return false;
+        if (v > INT_MAX)
+            return false;
 
         int x = static_cast<int>(v);
 
+        // reject duplicates
         if (std::find(_vec.begin(), _vec.end(), x) != _vec.end())
             return false;
 
@@ -46,10 +49,11 @@ bool PMerge::loadArgs(int argc, char** argv) {
         _deq.push_back(x);
     }
 
-    _before = _vec; // print "before"
+    _before = _vec; // keep original sequence for "Before:"
     return true;
 }
 
+// binary insert (keep ascending order)
 
 void PMerge::binInsertVector(std::vector<int>& a, int value) {
     int left = 0;
@@ -79,106 +83,80 @@ void PMerge::binInsertDeque(std::deque<int>& a, int value) {
     a.insert(a.begin() + left, value);
 }
 
-
-void PMerge::insertionSortVector(std::vector<int>& a) {
-    for (size_t i = 1; i < a.size(); ++i) {
-        int key = a[i];
-        size_t j = i;
-        while (j > 0 && a[j - 1] > key) {
-            a[j] = a[j - 1];
-            --j;
-        }
-        a[j] = key;
-    }
-}
-
-void PMerge::insertionSortDeque(std::deque<int>& a) {
-    for (size_t i = 1; i < a.size(); ++i) {
-        int key = a[i];
-        size_t j = i;
-        while (j > 0 && a[j - 1] > key) {
-            a[j] = a[j - 1];
-            --j;
-        }
-        a[j] = key;
-    }
-}
-
-// build the order for indices 1..m-1. - sequence: J0=0, J1=1, Jn=Jn-1 + 2*Jn-2 -> 0,1,1,3,5,11,...
+// "jacobsthal order builder" : builds the insertion order for indices 1..m-1.
 std::vector<size_t> PMerge::buildJacobsthalOrder(size_t m) {
     std::vector<size_t> order;
-    if (m <= 1) return order;
+    if (m <= 1)
+        return order;
 
-    size_t j0 = 0; // J0
-    size_t j1 = 1; // J1
-    size_t j  = j1 + 2 * j0; // J2 (=1)
+    // generate Jacobsthal numbers: J(0)=0, J(1)=1, J(n)=J(n-1)+2*J(n-2)
+    std::vector<size_t> jacobsthal;
+    jacobsthal.push_back(0);  // J(0)
+    jacobsthal.push_back(1);  // J(1)
+    
+    // generate Jacobsthal numbers until we exceed m-1
+    while (true) {
+        size_t next = jacobsthal[jacobsthal.size()-1] + 2 * jacobsthal[jacobsthal.size()-2];
+        jacobsthal.push_back(next);
+        if (next >= m) break;
+    }
 
-    while (j < m) {
-        size_t start = j;
-        size_t stop  = j1;
-        size_t idx = start;
-        while (idx > stop) {
+    // build insertion order based on Jacobsthal sequence
+    // first, always insert index 1 (if m > 1)
+    if (m > 1) {
+        order.push_back(1);
+    }
+    
+    // then, for each Jacobsthal interval, insert indices in descending order
+    for (size_t i = 2; i < jacobsthal.size() && jacobsthal[i-1] < m; ++i) {
+        // insert from min(jacobsthal[i], m-1) down to jacobsthal[i-1]+1 in descending order
+        size_t start = std::min(jacobsthal[i], m - 1);
+        size_t end = jacobsthal[i-1];
+        for (size_t idx = start; idx > end && idx > 1; --idx) {
             order.push_back(idx);
-            --idx;
         }
-        j0 = j1;
-        j1 = j;
-        j  = j1 + 2 * j0;
     }
-
-    size_t idx2 = m - 1;
-    while (idx2 > j1) {
-        order.push_back(idx2);
-        --idx2;
-    }
+    
     return order;
 }
 
-// simple merge-insertion + Jacobsthal order
+// ford–johnson (merge-insertion) — std::vector<int>
+//  - pair input into (min,max)
+//  - recursively sort MAX -> && this becomes the main chain
+//  - insert MIN[0], then the other MINs in "Jacobsthal order"
+//  - insert leftover (if the input size was odd)
+
 void PMerge::sortVector(std::vector<int>& a) {
     if (a.size() <= 1) return;
 
-    // 1. pairing (min, max)
     std::vector<int> mins;
     std::vector<int> maxs;
     mins.reserve(a.size() / 2);
     maxs.reserve(a.size() / 2);
 
+    // pairing
     size_t i = 0;
     size_t n = a.size();
     while (i + 1 < n) {
         int x = a[i];
         int y = a[i + 1];
-        if (x > y) {
-            int tmp = x;
-            x = y;
-            y = tmp;
-        }
+        if (x > y) { int tmp = x; x = y; y = tmp; }
         mins.push_back(x);
         maxs.push_back(y);
         i += 2;
     }
 
-    bool hasExtra = false;
-    int extra = 0;
-    if (i < n) {
-        hasExtra = true;
-        extra = a[i];
-    }
+    bool hasExtra = (i < n);
+    int extra = hasExtra ? a[i] : 0;
 
-    // 2. sort the "max" values recursively
-    if (maxs.size() > 1) {
-        std::vector<int> tmp = maxs;
-        sortVector(tmp);
-        maxs.swap(tmp);
-    }
+    sortVector(maxs);
+    std::vector<int> chain = maxs; // already ascending
 
-    // 3. "initial chain" = sorted maxs
-    std::vector<int> chain = maxs;
-
-    // 4. Insert mins[0], then the others following Jacobsthal order
+    // insert MINs
     if (!mins.empty()) {
+        // insert first min
         binInsertVector(chain, mins[0]);
+        // then insert remaining mins in Jacobsthal order
         std::vector<size_t> order = buildJacobsthalOrder(mins.size());
         for (size_t k = 0; k < order.size(); ++k) {
             size_t idx = order[k];
@@ -188,7 +166,7 @@ void PMerge::sortVector(std::vector<int>& a) {
         }
     }
 
-    // 5. insert eventual extra element (last odd element)
+    // insert leftover
     if (hasExtra) {
         binInsertVector(chain, extra);
     }
@@ -196,9 +174,10 @@ void PMerge::sortVector(std::vector<int>& a) {
     a.swap(chain);
 }
 
-
+// merge-insertion — std::deque<int>
 void PMerge::sortDeque(std::deque<int>& a) {
-    if (a.size() <= 1) return;
+    if (a.size() <= 1)
+        return;
 
     std::deque<int> mins;
     std::deque<int> maxs;
@@ -208,31 +187,20 @@ void PMerge::sortDeque(std::deque<int>& a) {
     while (i + 1 < n) {
         int x = a[i];
         int y = a[i + 1];
-        if (x > y) {
-            int tmp = x;
-            x = y;
-            y = tmp;
-        }
+        if (x > y) { int tmp = x; x = y; y = tmp; }
         mins.push_back(x);
         maxs.push_back(y);
         i += 2;
     }
 
-    bool hasExtra = false;
-    int extra = 0;
-    if (i < n) {
-        hasExtra = true;
-        extra = a[i];
-    }
+    bool hasExtra = (i < n);
+    int extra = hasExtra ? a[i] : 0;
 
-    if (maxs.size() > 1) {
-        std::deque<int> tmp = maxs;
-        sortDeque(tmp);
-        maxs.swap(tmp);
-    }
-
+    // main chain: recursively sort MAX
+    sortDeque(maxs);
     std::deque<int> chain = maxs;
 
+    // insert MINs
     if (!mins.empty()) {
         binInsertDeque(chain, mins[0]);
         std::vector<size_t> order = buildJacobsthalOrder(mins.size());
@@ -251,8 +219,6 @@ void PMerge::sortDeque(std::deque<int>& a) {
     a.swap(chain);
 }
 
-// run / show utils
-
 void PMerge::run() {
     clock_t t0, t1;
 
@@ -268,13 +234,13 @@ void PMerge::run() {
 }
 
 void PMerge::show() const {
-    std::cout << "before:";
+    std::cout << "Before:";
     for (size_t i = 0; i < _before.size(); ++i) {
         std::cout << " " << _before[i];
     }
     std::cout << std::endl;
 
-    std::cout << "after:";
+    std::cout << "After:";
     for (size_t i = 0; i < _vec.size(); ++i) {
         std::cout << " " << _vec[i];
     }

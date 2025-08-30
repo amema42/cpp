@@ -29,7 +29,7 @@ bool BitcoinExchange::isLeapYear(int year) const {
     return (year % 4 == 0 && year % 100 != 0) || (year % 400 == 0);
 }
 
-// validate YYYY-MM-DD format
+// validate YYYY-MM-DD
 bool BitcoinExchange::isValidDate(const std::string& date) const {
     if (date.length() != 10) return false;
     if (date[4] != '-' || date[7] != '-') return false;
@@ -46,7 +46,8 @@ bool BitcoinExchange::isValidDate(const std::string& date) const {
     int month = std::atoi(m.c_str());
     int day   = std::atoi(d.c_str());
 
-    if (year < 2009) return false; // bitcoin genesis!
+    if (year < 2009)
+        return false; // bitcoin genesis!
 
     if (month < 1 || month > 12) return false;
     if (day < 1 || day > 31) return false;
@@ -160,7 +161,7 @@ void BitcoinExchange::processInput(const std::string& inputFile) {
         std::cerr << "Error: could not open file." << std::endl;
         return;
     }
-
+    
     std::string line;
     bool firstLine = true;
 
