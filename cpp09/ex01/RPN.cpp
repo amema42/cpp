@@ -77,7 +77,7 @@ void RPN::processToken(const std::string& token) {
         return;
     }
     
-    throw std::runtime_error("Error: invalid token '" + token + "'");
+    throw std::runtime_error("Error");
 }
 
 // calculate RPN expression
