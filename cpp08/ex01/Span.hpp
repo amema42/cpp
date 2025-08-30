@@ -26,6 +26,19 @@ public:
         m_values.insert(m_values.end(), first, last);
     }
 
+    // or: iterator range overload (remove addRange and keep only addNumber)
+
+    // template <typename It>
+    // void addNumber(It first, It last) {
+    //     // Variant A: safe for input iterators (inserts one by one)
+    //     std::size_t used = m_values.size();
+    //     const std::size_t cap = static_cast<std::size_t>(m_capacity);
+    //     for (; first != last; ++first) {
+    //         if (used >= cap) throw std::length_error("Span capacity exceeded");
+    //         m_values.push_back(*first);
+    //         ++used;
+    //     }
+
     unsigned int shortestSpan() const;
     unsigned int longestSpan()  const;
 
