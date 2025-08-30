@@ -37,7 +37,7 @@ static void runAddRangeTest() {
 
 //some big n test
 static void runBigTest() {
-    std::cout << "some Big test: 10,000+ random values]\n";
+    std::cout << "some Big test: 10,000+ random values\n";
 
     const int N = 10000;
     std::vector<int> bigData; bigData.reserve(N);
@@ -54,7 +54,7 @@ static void runBigTest() {
 }
 
 static void runErrorTests() {
-    std::cout << "some: Error handling tests]\n";
+    std::cout << "some: Error handling tests\n";
 
     // capacity overflow
     try {
