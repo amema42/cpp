@@ -20,8 +20,9 @@ public:
     template <typename It>
     void addRange(It first, It last) {
         const std::size_t count = static_cast<std::size_t>(std::distance(first, last));
-        if (m_values.size() + count > m_capacity)
-            throw std::length_error("Span is full (addRange)");
+        // check 4 overflow
+        if (count > m_capacity || m_values.size() > m_capacity - count)
+            throw std::length_error("Span capacity exceeded");
         m_values.insert(m_values.end(), first, last);
     }
 

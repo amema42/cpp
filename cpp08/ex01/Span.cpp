@@ -37,10 +37,12 @@ unsigned int Span::shortestSpan() const {
 
     unsigned int minGap = std::numeric_limits<unsigned int>::max();
     for (std::size_t i = 1; i < sortedValues.size(); ++i) {
-        // use 'long' to avoid overflow when subtracting extremes
-        long diff = static_cast<long>(sortedValues[i]) - static_cast<long>(sortedValues[i - 1]);
-        if (diff < 0) diff = -diff;
-        if (static_cast<unsigned long>(diff) < minGap)
+        // Use unsigned arithmetic for cleaner overflow handling
+        const unsigned long current = static_cast<unsigned long>(sortedValues[i]);
+        const unsigned long previous = static_cast<unsigned long>(sortedValues[i - 1]);
+        const unsigned long diff = current - previous; // Always positive since sorted
+        
+        if (diff < minGap)
             minGap = static_cast<unsigned int>(diff);
     }
     return minGap;
@@ -53,7 +55,7 @@ unsigned int Span::longestSpan() const {
     const int minValue = *std::min_element(m_values.begin(), m_values.end());
     const int maxValue = *std::max_element(m_values.begin(), m_values.end());
 
-    long diff = static_cast<long>(maxValue) - static_cast<long>(minValue);
-    if (diff < 0) diff = -diff;
-    return static_cast<unsigned int>(diff);
+    // Use unsigned arithmetic to avoid overflow issues
+    return static_cast<unsigned int>(static_cast<unsigned long>(maxValue) - 
+                                   static_cast<unsigned long>(minValue));
 }
