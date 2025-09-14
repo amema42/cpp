@@ -213,12 +213,13 @@ void BitcoinExchange::processInput(const std::string& inputFile) {
 
         double result = value * rate;
         // format output: integers cleanly, floats as-is
-        std::cout << date << " => " << value;
-        if (value == static_cast<int>(value) && value < 1000000) {
-            std::cout << " = " << static_cast<int>(result) << std::endl;
-        } else {
-            std::cout << " = " << result << std::endl;
-        }
+        //std::cout << date << " => " << value;
+        // if (value == static_cast<int>(value) && value < 1000000) {
+        //     std::cout << " = " << static_cast<int>(result) << std::endl;
+        // } else {
+        //     std::cout << " = " << result << std::endl;
+        // }
+        std::cout << date << " => " << value << " = " << result << std::endl;
     }
 
     file.close();

@@ -5,6 +5,8 @@
 #include <cctype>
 #include <ctime>
 #include <algorithm>
+#include <iomanip>
+
 
 PMerge::PMerge() : _vecTimeUs(0.0), _deqTimeUs(0.0) {}
 
@@ -235,20 +237,18 @@ void PMerge::run() {
 
 void PMerge::show() const {
     std::cout << "Before:";
-    for (size_t i = 0; i < _before.size(); ++i) {
-        std::cout << " " << _before[i];
-    }
+    for (size_t i = 0; i < _before.size(); ++i) std::cout << " " << _before[i];
     std::cout << std::endl;
 
     std::cout << "After:";
-    for (size_t i = 0; i < _vec.size(); ++i) {
-        std::cout << " " << _vec[i];
-    }
+    for (size_t i = 0; i < _vec.size(); ++i) std::cout << " " << _vec[i];
     std::cout << std::endl;
 
     std::cout << "Time to process a range of " << _vec.size()
-              << " elements with std::vector : " << _vecTimeUs << " us" << std::endl;
+              << " elements with std::vector : "
+              << std::fixed << std::setprecision(5) << _vecTimeUs << " us" << std::endl;
 
     std::cout << "Time to process a range of " << _deq.size()
-              << " elements with std::deque  : " << _deqTimeUs << " us" << std::endl;
+              << " elements with std::deque  : "
+              << std::fixed << std::setprecision(5) << _deqTimeUs << " us" << std::endl;
 }
